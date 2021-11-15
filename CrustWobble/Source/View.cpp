@@ -17,14 +17,14 @@ MainView::MainView() {
     addAndMakeVisible(fileMenuBar);
 }
 
-MainView::FileMenuBar::FileMenuBar() {
+FileMenuBar::FileMenuBar() {
     //menuBar.setModel(this);
     addAndMakeVisible(menuBar);
 }
 
 //Destructors
 MainView::~MainView() {}
-MainView::FileMenuBar::~FileMenuBar() {}
+FileMenuBar::~FileMenuBar() {}
 
 //MainView Overrides                                                  
 void MainView::paint(juce::Graphics& g)
@@ -52,13 +52,13 @@ void MainView::FileMenuBar::resized()
     menuBar.setBounds(getLocalBounds());
 }
 
-StringArray MainView::FileMenuBar::getMenuBarNames()
+StringArray FileMenuBar::getMenuBarNames()
 {
     auto names = { "File" };
     return StringArray(names);
 }
 
-PopupMenu MainView::FileMenuBar::getMenuForIndex(int topLevelMenuIndex, const String& menuName)
+PopupMenu FileMenuBar::getMenuForIndex(int topLevelMenuIndex, const String& menuName)
 {
     PopupMenu menu;
     //if the menu is empty, add AudioPrefs to the menu
@@ -67,7 +67,7 @@ PopupMenu MainView::FileMenuBar::getMenuForIndex(int topLevelMenuIndex, const St
     return menu;
 }
 
-void MainView::FileMenuBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
+void FileMenuBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 {
     /*
     //if the File menu was selected

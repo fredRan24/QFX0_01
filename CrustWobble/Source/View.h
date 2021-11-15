@@ -24,44 +24,44 @@ public:
 
 private:
 
-    class FileMenuBar : public Component, public MenuBarModel
+    FileMenuBar fileMenuBar;
+};
+
+class FileMenuBar : public Component, 
+                    public MenuBarModel
+{
+public:
+    FileMenuBar();
+    ~FileMenuBar();
+
+    //Overrides
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+    StringArray getMenuBarNames() override;
+    PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
+    void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
+
+
+    //Enums
+    enum  Menus
     {
-    public:
-        FileMenuBar();
-        ~FileMenuBar();
+        FileMenu = 0,
 
-        //Overrides
-        void paint(juce::Graphics& g) override;
-        void resized() override;
-        StringArray getMenuBarNames() override;
-        PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
-        void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
-
-
-        //Enums
-        enum  Menus
-        {
-            FileMenu = 0,
-
-            NumMenus
-        };
-
-        /** The items within the File Menu
-
-            @see Menus
-                                                                                            */
-        enum  FileMenuItems
-        {
-            AudioPrefs = 1,
-
-            NumFileItems
-        };
-
-    private:
-        MenuBarComponent menuBar;
+        NumMenus
     };
 
+    /** The items within the File Menu
 
-    FileMenuBar fileMenuBar;
+        @see Menus
+                                                                                        */
+    enum  FileMenuItems
+    {
+        AudioPrefs = 1,
+
+        NumFileItems
+    };
+
+private:
+    MenuBarComponent menuBar;
 };
 
