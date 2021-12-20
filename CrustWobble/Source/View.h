@@ -12,20 +12,7 @@
 using namespace std;
 using namespace juce;
 
-class MainView : public Component
-{
-public:
-    MainView();
-    ~MainView();
 
-    //Overrides
-    void paint(juce::Graphics& g) override;
-    void resized() override;
-
-private:
-
-    FileMenuBar fileMenuBar;
-};
 
 class FileMenuBar : public Component, 
                     public MenuBarModel
@@ -65,3 +52,17 @@ private:
     MenuBarComponent menuBar;
 };
 
+class MainView : public Component
+{
+public:
+    MainView();
+    ~MainView();
+
+    //Overrides
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+
+private:
+
+    FileMenuBar fileMenuBar;
+};

@@ -42,12 +42,12 @@ void MainView::resized()
 }
 
 //MenuBar Overrides
-void MainView::FileMenuBar::paint(juce::Graphics& g)
+void FileMenuBar::paint(juce::Graphics& g)
 {
     //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 }
 
-void MainView::FileMenuBar::resized()
+void FileMenuBar::resized()
 {
     menuBar.setBounds(getLocalBounds());
 }
