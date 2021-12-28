@@ -15,21 +15,21 @@ using namespace juce;
 class Wilber3DIR
 {
 public:
-    Wilber3DIR();
+    Wilber3DIR(String pathOfSelectedDIR);
     ~Wilber3DIR();
     
-    void checkDIR();
+    bool loadDIR();
     
     void getNumFiles();
-    void checkFiletype();
-    void locateStationFile();
     
     void readStationFile();
     
 private:
     String W3DIRName = "";
     StringArray files;
+    String dirPath = "";
     String stationFilePath = "";
+    int numFiles = 0;
 };
 
 class W3DIRConverter

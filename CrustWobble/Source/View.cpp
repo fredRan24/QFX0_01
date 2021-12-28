@@ -15,6 +15,8 @@ using namespace std;
 //Constructors
 MainView::MainView() {
     addAndMakeVisible(fileMenuBar);
+    addAndMakeVisible(tempButton);
+
 }
 
 FileMenuBar::FileMenuBar() {
@@ -38,8 +40,21 @@ void MainView::resized()
 
     auto menuBarBounds = window.removeFromTop(25);
     fileMenuBar.setBounds(menuBarBounds);
-
+    
+    auto buttonBounds = window.reduced(50, 50);
+    tempButton.setBounds(buttonBounds);
+    
 }
+
+void MainView::buttonClicked (Button*)
+{
+    
+}
+
+
+
+
+
 
 //MenuBar Overrides
 void FileMenuBar::paint(juce::Graphics& g)

@@ -52,7 +52,7 @@ private:
     MenuBarComponent menuBar;
 };
 
-class MainView : public Component
+class MainView : public Component, public Button::Listener
 {
 public:
     MainView();
@@ -61,8 +61,10 @@ public:
     //Overrides
     void paint(juce::Graphics& g) override;
     void resized() override;
+    void buttonClicked (Button*) override;
+
 
 private:
-
+    TextButton tempButton;
     FileMenuBar fileMenuBar;
 };
