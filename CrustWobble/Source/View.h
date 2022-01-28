@@ -7,12 +7,11 @@
 
   ==============================================================================
 */
+#pragma once
 #include <JuceHeader.h>
 
 using namespace std;
 using namespace juce;
-
-
 
 class FileMenuBar : public Component, 
                     public MenuBarModel
@@ -52,7 +51,9 @@ private:
     MenuBarComponent menuBar;
 };
 
-class MainView : public Component, public Button::Listener
+
+
+class MainView : public Component
 {
 public:
     MainView();
@@ -61,10 +62,28 @@ public:
     //Overrides
     void paint(juce::Graphics& g) override;
     void resized() override;
-    void buttonClicked (Button*) override;
 
-
+    FilenameComponent* getDirChooser();
+    TextButton* getConvertButton();
+    
 private:
-    TextButton tempButton;
     FileMenuBar fileMenuBar;
+    
+    FilenameComponent dirChooser;
+    FilenameComponent* dirChooserPtr = &dirChooser;
+    
+    TextButton convertButton;
+    TextButton* convertButtonPtr = &convertButton;
+    
+};
+
+class WebBrowser : public WebBrowserComponent
+{
+public:
+    WebBrowser();
+    ~WebBrowser();
+    
+private:
+    
+    
 };

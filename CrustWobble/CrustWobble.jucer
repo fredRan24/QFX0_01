@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="KaiKUJ" name="CrustWobble">
     <GROUP id="{054B88BD-735B-1DB1-3A67-0D17A2DB541D}" name="Source">
+      <GROUP id="{7B723395-FB1A-6DA9-4D62-1C512DA0CF74}" name="Controller">
+        <FILE id="oztUMp" name="Controller.cpp" compile="1" resource="0" file="Source/Controller.cpp"/>
+        <FILE id="hToVHL" name="Controller.h" compile="0" resource="0" file="Source/Controller.h"/>
+      </GROUP>
       <GROUP id="{B5F69484-183E-2C20-E502-F0785B8EB446}" name="Quake">
         <FILE id="Lr9M95" name="Quake.cpp" compile="1" resource="0" file="Source/Quake.cpp"/>
         <FILE id="SAhgNY" name="Quake.h" compile="0" resource="0" file="Source/Quake.h"/>
@@ -42,6 +46,7 @@
         <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2019>
     <XCODE_MAC targetFolder="Builds/MacOSX">
@@ -62,6 +67,7 @@
         <MODULEPATH id="juce_audio_formats" path="../../../../UNI/BSc Broadcast, Audio and Music Technology/Year 3/SDA/JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../../juce"/>
         <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+        <MODULEPATH id="juce_opengl" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>
@@ -78,6 +84,7 @@
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
     <OSX/>

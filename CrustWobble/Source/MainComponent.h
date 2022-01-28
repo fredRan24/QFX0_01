@@ -2,6 +2,8 @@
 
 #include <JuceHeader.h>
 #include "View.h"
+#include "Controller.h"
+#include "Quake.h"
 
 //==============================================================================
 /*
@@ -23,6 +25,8 @@ private:
     //==============================================================================
     // Your private member variables go here...
     MainView mainView;
+    QuakeProcessor dirConvertorObject;
+    Controller controllerObject;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

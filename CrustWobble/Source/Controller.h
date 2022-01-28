@@ -13,15 +13,17 @@
 #include "View.h"
 #include "Audio.h"
 
-class Controller : private FilenameComponentListener
+class Controller :  public FilenameComponentListener,
+                    public Button::Listener
 {
 public:
-    Controller(MainView& view, W3DIRConverter& convertr);
+    Controller(MainView& view, QuakeProcessor& convertr);
     ~Controller();
     
     void filenameComponentChanged (FilenameComponent* fileComponentThatHasChanged) override;
+    void buttonClicked (Button*) override;
     
 private:
     MainView* mainViewObj;
-    W3DIRConverter* converter;
+    QuakeProcessor* converter;
 };

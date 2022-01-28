@@ -12,23 +12,28 @@
 #include "View.h"
 using namespace std;
 
-//Constructors
-MainView::MainView() {
+/*
+==============================================================================
+                                MainView
+==============================================================================
+*/
+
+MainView::MainView() : dirChooser("Directory Chooser",
+                                  File::getCurrentWorkingDirectory(),
+                                  false, true, false, "", "",
+                                  "Please select a directory!")
+{
     addAndMakeVisible(fileMenuBar);
-    addAndMakeVisible(tempButton);
-
+    addAndMakeVisible(dirChooser);
+    addAndMakeVisible(convertButton);
+    
+    convertButton.setButtonText("Convert");
 }
 
-FileMenuBar::FileMenuBar() {
-    //menuBar.setModel(this);
-    addAndMakeVisible(menuBar);
-}
 
-//Destructors
 MainView::~MainView() {}
-FileMenuBar::~FileMenuBar() {}
 
-//MainView Overrides                                                  
+//Overrides
 void MainView::paint(juce::Graphics& g)
 {
     //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
@@ -41,22 +46,42 @@ void MainView::resized()
     auto menuBarBounds = window.removeFromTop(25);
     fileMenuBar.setBounds(menuBarBounds);
     
-    auto buttonBounds = window.reduced(50, 50);
-    tempButton.setBounds(buttonBounds);
+    auto header = window.removeFromTop(30);
+    header = header.reduced(5);
+    auto dirChooserBounds = header.removeFromRight((header.getWidth()/5)*4);
+    dirChooser.setBounds(dirChooserBounds);
+    
+    auto convertButtonBounds = header;
+    convertButton.setBounds(convertButtonBounds);
     
 }
 
-void MainView::buttonClicked (Button*)
+FilenameComponent* MainView::getDirChooser()
 {
     
+    return dirChooserPtr;
 }
 
+TextButton* MainView::getConvertButton()
+{
+    return convertButtonPtr;
+}
+
+/*
+==============================================================================
+                                FileMenuBar
+==============================================================================
+*/
+
+FileMenuBar::FileMenuBar() {
+    //menuBar.setModel(this);
+    addAndMakeVisible(menuBar);
+}
+
+FileMenuBar::~FileMenuBar() {}
 
 
-
-
-
-//MenuBar Overrides
+//Overrides
 void FileMenuBar::paint(juce::Graphics& g)
 {
     //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
@@ -109,4 +134,15 @@ void FileMenuBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
         }
     }
     */
+}
+
+
+WebBrowser::WebBrowser()
+{
+    
+}
+
+WebBrowser::~WebBrowser()
+{
+    
 }

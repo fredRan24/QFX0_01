@@ -10,11 +10,13 @@
 
 #include "Controller.h"
 
-Controller::Controller(MainView& view, W3DIRConverter& convertr)
+Controller::Controller(MainView& view, QuakeProcessor& convertr)
 {
     mainViewObj = &view;
     converter = &convertr;
 
+    mainViewObj->getDirChooser()->addListener(this);
+    mainViewObj->getConvertButton()->addListener(this);
 }
 
 Controller::~Controller()
@@ -26,6 +28,17 @@ void Controller::filenameComponentChanged (FilenameComponent* fileComponentThatH
 {
     if(fileComponentThatHasChanged == mainViewObj->getDirChooser())
     {
-        DBG("A file has changed!!");
+        converter->loadDIR(mainViewObj->getDirChooser()->getCurrentFile().getFullPathName());
+        DBG("DIR selector filenamecompoonent callback triggered...");
     }
 }
+
+void Controller::buttonClicked (Button* b)
+{
+    if(b == mainViewObj->getConvertButton())
+    {
+        converter->processDIR();
+        DBG("Convert button pressed!");
+    }
+}
+ 

@@ -1,7 +1,7 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent()
+MainComponent::MainComponent() : controllerObject(mainView, dirConvertorObject)
 {
     addAndMakeVisible(mainView);
 
