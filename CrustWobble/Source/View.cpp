@@ -136,13 +136,3 @@ void FileMenuBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
     */
 }
 
-
-WebBrowser::WebBrowser()
-{
-    
-}
-
-WebBrowser::~WebBrowser()
-{
-    
-}

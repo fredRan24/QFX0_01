@@ -76,14 +76,3 @@ private:
     TextButton* convertButtonPtr = &convertButton;
     
 };
-
-class WebBrowser : public WebBrowserComponent
-{
-public:
-    WebBrowser();
-    ~WebBrowser();
-    
-private:
-    
-    
-};

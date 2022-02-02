@@ -103,4 +103,3 @@ private:
     */
     float makeNegative(float floatToMakeNegative);
 };
-

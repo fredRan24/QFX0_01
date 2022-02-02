@@ -146,7 +146,23 @@ void QuakeProcessor::makeFolders()
     for(int i = 0; i<folderNames.size(); i++)
     {
         String fullPath = dirPath;
-        String wavFolderName = "/Converted WAV Files/";
+        String wavFolderName;
+
+        if ((SystemStats::getOperatingSystemType() & SystemStats::Windows) != 0)
+        {
+            wavFolderName = "\\Converted WAV Files\\";
+
+        }
+        else if ((SystemStats::getOperatingSystemType() & SystemStats::MacOSX) != 0)
+        {
+            wavFolderName = "/Converted WAV Files/";
+        }
+        else
+        {
+            DBG("Did not recognise the operating system...");
+            return;
+        }
+
         fullPath.append(wavFolderName, wavFolderName.length());
         fullPath.append(folderNames[i], folderNames[i].length());
         File newFolder = File(fullPath);
@@ -166,14 +182,27 @@ void QuakeProcessor::makeSaveLocations()
         String fullPathName = files[i].getFullPathName();
         for (int j = 0; j<codes.size(); j++)
         {
-            if(fullPathName.contains(codes[j]))
+            if (fullPathName.contains(codes[j]))
             {
                 File correctDirectory = File(folderPaths[j]);
                 String savePathToAdd = folderPaths[j];
-                
+
                 String fileNumber = "";
-                
-                savePathToAdd.append("/", 1);
+
+                if ((SystemStats::getOperatingSystemType() & SystemStats::Windows) != 0)
+                {
+                    savePathToAdd.append("\\", 1);
+                }
+                else if((SystemStats::getOperatingSystemType() & SystemStats::MacOSX) != 0)
+                {
+                    savePathToAdd.append("/", 1);
+                }
+                else
+                {
+                    DBG("Did not recognise the operating system...");
+                    return;
+                }
+
                 savePathToAdd.append(filenameTemplates[j], filenameTemplates[j].length());
                 savePathToAdd.append("-0.wav", 6);
                 
