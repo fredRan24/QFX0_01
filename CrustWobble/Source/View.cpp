@@ -136,3 +136,56 @@ void FileMenuBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
     */
 }
 
+//////////////////////////////////////////////////
+// DirectoryDisplay Component
+//////////////////////////////////////////////////
+
+DirectoryDisplay::DirectoryDisplay()
+{
+    
+}
+
+DirectoryDisplay::~DirectoryDisplay()
+{
+
+}
+
+void DirectoryDisplay::paint(juce::Graphics& g)
+{
+
+}
+
+void DirectoryDisplay::resized()
+{
+
+}
+
+void DirectoryDisplay::loadDirectoryIntoFileTreeComponent(File& directory)
+{
+
+}
+
+
+//////////////////////////////////////////////////
+// ControlsView Component
+//////////////////////////////////////////////////
+
+ControlsView::ControlsView()
+{
+
+}
+
+ControlsView::~ControlsView()
+{
+
+}
+
+void ControlsView::paint(juce::Graphics& g)
+{
+
+}
+
+void ControlsView::resized()
+{
+
+}

@@ -51,7 +51,38 @@ private:
     MenuBarComponent menuBar;
 };
 
+class DirectoryDisplay : public Component
+{
+public:
+    DirectoryDisplay();
+    ~DirectoryDisplay();
 
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+
+    void loadDirectoryIntoFileTreeComponent(File& directory);
+
+private:
+    unique_ptr<FileTreeComponent> fileTree;
+    unique_ptr<DirectoryContentsList> dirContents;
+};
+
+class ControlsView : public Component
+{
+public:
+    ControlsView();
+    ~ControlsView();
+
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+
+private:
+
+    //playwinowdtoggle
+    //downloadwindowtoggle
+    //convertwindowtoggle
+
+};
 
 class MainView : public Component
 {

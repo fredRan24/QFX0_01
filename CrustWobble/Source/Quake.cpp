@@ -50,7 +50,7 @@ bool QuakeProcessor::loadDIR(String pathOfSelectedDIR) {
                 //Check if the file is the station file
                 if(filesInDir[i].getFullPathName().contains("wilber-stations.txt"))
                 {
-                    //If it is, change the variable, set the local file variable, remove it from the file array
+                    //If it is, change the found variable, set the local file variable, remove it from the file array
                     iFoundTheStationFile = true;
                     stationFile = File(filesInDir[i]);
                     filesInDir.remove(i);
@@ -297,7 +297,7 @@ void QuakeProcessor::processFloatArray(Array<float>* floatArrayToProcess, String
     floatAudioBuffer->setSize(1, (int)arraySize);
     floatAudioBuffer->clear();
 
-    float* tempPtr = const_cast<float*>(floatArrayToProcess->getRawDataPointer());
+    float* tempPtr = const_cast<float*>(floatArrayToProcess->getRawDataPointer()); //right thing to do??
 
     //Fill a buffer with the floats
     if (arraySize > 0)
@@ -306,7 +306,7 @@ void QuakeProcessor::processFloatArray(Array<float>* floatArrayToProcess, String
         DBG("The FloatArray was empty..");
         return;
     }
-    
+
     //Create an immaginary file at a savePath
     int counter = 0;
     while(File(savePath).existsAsFile())
