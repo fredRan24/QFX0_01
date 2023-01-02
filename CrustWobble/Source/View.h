@@ -15,6 +15,30 @@ using namespace juce;
 
 // ----------------------------------------------------------
 
+class ConvertNewEventView : public Component
+{
+public:
+    ConvertNewEventView();
+    ~ConvertNewEventView();
+
+    //Overrides
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+
+    FilenameComponent* getDirChooser();
+    TextButton* getConvertButton();
+    
+private:
+    FilenameComponent dirChooser;
+    FilenameComponent* dirChooserPtr = &dirChooser;
+    
+    TextButton convertButton;
+    TextButton* convertButtonPtr = &convertButton;
+    
+};
+
+// ----------------------------------------------------------
+
 class FileMenuBar : public Component, 
                     public MenuBarModel
 {
@@ -51,6 +75,7 @@ public:
 
 private:
     MenuBarComponent menuBar;
+    ConvertNewEventView converter;
 };
 
 
@@ -157,17 +182,15 @@ public:
     //Overrides
     void paint(juce::Graphics& g) override;
     void resized() override;
-
-    FilenameComponent* getDirChooser();
-    TextButton* getConvertButton();
     
 private:
+    
     FileMenuBar fileMenuBar;
-    
-    FilenameComponent dirChooser;
-    FilenameComponent* dirChooserPtr = &dirChooser;
-    
-    TextButton convertButton;
-    TextButton* convertButtonPtr = &convertButton;
-    
+    TopWindowView topWindow;
+    DirectoryDisplay dirDisplay;
 };
+
+
+// ----------------------------------------------------------
+
+

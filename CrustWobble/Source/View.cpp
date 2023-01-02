@@ -16,19 +16,14 @@ using namespace std;
 //       MainView
 //////////////////////////////////////////////////
 
-MainView::MainView() : dirChooser("Directory Chooser",
-                                  File::getCurrentWorkingDirectory(),
-                                  false, true, false, "", "",
-                                  "Please select a directory!")
+MainView::MainView()
 {
     addAndMakeVisible(fileMenuBar);
-    addAndMakeVisible(dirChooser);
-    addAndMakeVisible(convertButton);
-    
-    convertButton.setButtonText("Convert");
+    addAndMakeVisible(topWindow);
+    addAndMakeVisible(dirDisplay);
 }
 
-
+//destructor
 MainView::~MainView() {}
 
 //Overrides
@@ -44,25 +39,47 @@ void MainView::resized()
     auto menuBarBounds = window.removeFromTop(25);
     fileMenuBar.setBounds(menuBarBounds);
     
-    auto header = window.removeFromTop(30);
-    header = header.reduced(5);
-    auto dirChooserBounds = header.removeFromRight((header.getWidth()/5)*4);
-    dirChooser.setBounds(dirChooserBounds);
-    
-    auto convertButtonBounds = header;
-    convertButton.setBounds(convertButtonBounds);
+}
+
+//////////////////////////////////////////////////
+// FileMenuBar Component
+//////////////////////////////////////////////////
+
+ConvertNewEventView::ConvertNewEventView() : dirChooser("Directory Chooser", File::getCurrentWorkingDirectory(),
+    false, true, false, "", "",
+    "Please select a directory!")
+{
     
 }
 
-FilenameComponent* MainView::getDirChooser()
+ConvertNewEventView::~ConvertNewEventView() {
+    
+}
+
+FilenameComponent* ConvertNewEventView::getDirChooser()
 {
     
     return dirChooserPtr;
 }
 
-TextButton* MainView::getConvertButton()
+TextButton* ConvertNewEventView::getConvertButton()
 {
     return convertButtonPtr;
+}
+
+void ConvertNewEventView::resized() {
+
+        
+    auto window = getLocalBounds();
+
+    auto header = window.removeFromTop(30);
+    header = header.reduced(5);
+    auto dirChooserBounds = header.removeFromRight((header.getWidth()/5)*4);
+    dirChooser.setBounds(dirChooserBounds);
+
+    auto convertButtonBounds = header;
+    convertButton.setBounds(convertButtonBounds);
+
 }
 
 //////////////////////////////////////////////////
@@ -72,6 +89,7 @@ TextButton* MainView::getConvertButton()
 FileMenuBar::FileMenuBar() {
     //menuBar.setModel(this);
     addAndMakeVisible(menuBar);
+    addAndMakeVisible(converter);
 }
 
 FileMenuBar::~FileMenuBar() {}
