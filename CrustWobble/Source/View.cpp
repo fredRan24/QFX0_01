@@ -49,7 +49,8 @@ ConvertNewEventView::ConvertNewEventView() : dirChooser("Directory Chooser", Fil
     false, true, false, "", "",
     "Please select a directory!")
 {
-    
+    addAndMakeVisible(dirChooser);
+    addAndMakeVisible(convertButton);
 }
 
 ConvertNewEventView::~ConvertNewEventView() {
@@ -69,7 +70,6 @@ TextButton* ConvertNewEventView::getConvertButton()
 
 void ConvertNewEventView::resized() {
 
-        
     auto window = getLocalBounds();
 
     auto header = window.removeFromTop(30);
@@ -80,6 +80,10 @@ void ConvertNewEventView::resized() {
     auto convertButtonBounds = header;
     convertButton.setBounds(convertButtonBounds);
 
+}
+
+void ConvertNewEventView::paint(juce::Graphics &g) {
+    
 }
 
 //////////////////////////////////////////////////
