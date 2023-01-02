@@ -29,7 +29,7 @@ MainView::~MainView() {}
 //Overrides
 void MainView::paint(juce::Graphics& g)
 {
-    //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+    g.fillAll(Colours::white);
 }
                                                    
 void MainView::resized()
@@ -39,10 +39,14 @@ void MainView::resized()
     auto menuBarBounds = window.removeFromTop(25);
     fileMenuBar.setBounds(menuBarBounds);
     
+    auto topSectionBounds = window.removeFromTop(window.getHeight()/5);
+    topWindow.setBounds(topSectionBounds);
+    
+    dirDisplay.setBounds(window);
 }
 
 //////////////////////////////////////////////////
-// FileMenuBar Component
+// ConvertNewEventView Component
 //////////////////////////////////////////////////
 
 ConvertNewEventView::ConvertNewEventView() : dirChooser("Directory Chooser", File::getCurrentWorkingDirectory(),
@@ -102,7 +106,7 @@ FileMenuBar::~FileMenuBar() {}
 //Overrides
 void FileMenuBar::paint(juce::Graphics& g)
 {
-    //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+    g.fillAll(Colours::pink);
 }
 
 void FileMenuBar::resized()
@@ -170,6 +174,7 @@ DirectoryDisplay::~DirectoryDisplay()
 
 void DirectoryDisplay::paint(juce::Graphics& g)
 {
+    g.fillAll(Colours::orange);
 
 }
 
@@ -200,7 +205,7 @@ ControlsView::~ControlsView()
 
 void ControlsView::paint(juce::Graphics& g)
 {
-
+    g.fillAll(Colours::blue);
 }
 
 void ControlsView::resized()
@@ -227,12 +232,19 @@ void TopWindowView::updateVisualiser() {
 
 void TopWindowView::paint(juce::Graphics& g)
 {
-
+    g.fillAll(Colours::yellowgreen);
 }
 
 void TopWindowView::resized()
 {
-
+    auto segment = getLocalBounds();
+    
+    auto logoBounds = segment.removeFromLeft(segment.getWidth()/6);
+    
+    auto controlBounds = segment.removeFromLeft(segment.getWidth()/4);
+    controls.setBounds(controlBounds.reduced(10,10));
+    
+    visualiser.setBounds(segment.reduced(10,10));
 }
 
 //////////////////////////////////////////////////
