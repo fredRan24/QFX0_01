@@ -13,6 +13,8 @@
 using namespace std;
 using namespace juce;
 
+// ----------------------------------------------------------
+
 class FileMenuBar : public Component, 
                     public MenuBarModel
 {
@@ -51,6 +53,10 @@ private:
     MenuBarComponent menuBar;
 };
 
+
+// ----------------------------------------------------------
+
+
 class DirectoryDisplay : public Component
 {
 public:
@@ -66,6 +72,8 @@ private:
     unique_ptr<FileTreeComponent> fileTree;
     unique_ptr<DirectoryContentsList> dirContents;
 };
+
+// ----------------------------------------------------------
 
 class ControlsView : public Component
 {
@@ -83,6 +91,62 @@ private:
     //convertwindowtoggle
 
 };
+
+
+// ----------------------------------------------------------
+
+
+class AudioVisualiser : public Component
+{
+public:
+
+    AudioVisualiser();
+    ~AudioVisualiser();
+                                               
+    void paint(Graphics& g) override;
+
+    void resized() override;
+
+    AudioThumbnail& getThumbnail();
+                                                          
+    void thumbnailChanged();
+
+private:
+
+    void paintIfNoFileLoaded(Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
+
+    void paintIfFileLoaded(Graphics& g, const Rectangle<int>& thumbnailBounds);
+
+    AudioFormatManager thumbnailFormatManager;
+    AudioThumbnailCache thumbnailCache;
+    AudioThumbnail thumbnail;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioVisualiser)
+
+};
+
+// ----------------------------------------------------------
+
+
+class TopWindowView : public Component
+{
+public:
+    TopWindowView();
+    ~TopWindowView();
+    
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+    
+    void updateVisualiser();
+    
+private:
+    AudioVisualiser visualiser;
+    ControlsView controls;
+};
+
+
+// ----------------------------------------------------------
+
 
 class MainView : public Component
 {
