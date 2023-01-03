@@ -42,7 +42,8 @@ void MainView::resized()
     auto topSectionBounds = window.removeFromTop(window.getHeight()/5);
     topWindow.setBounds(topSectionBounds);
     
-    dirDisplay.setBounds(window);
+    
+    dirDisplay.setBounds(window.reduced(10,10));
 }
 
 //////////////////////////////////////////////////
@@ -159,11 +160,97 @@ void FileMenuBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 }
 
 //////////////////////////////////////////////////
+// EventTreeItem Class
+//////////////////////////////////////////////////
+
+EventTreeItem::EventTreeItem(const ValueTree& v, UndoManager& um) : tree (v), undoManager(um)
+{
+    tree.addListener(this);
+}
+
+EventTreeItem::~EventTreeItem()
+{
+    
+}
+
+String EventTreeItem::getUniqueName() const
+{
+    return tree["name"].toString();
+}
+
+bool EventTreeItem::mightContainSubItems()
+{
+    return tree.getNumChildren() > 0;
+}
+
+void EventTreeItem::paintItem (Graphics& g, int width, int height)
+{
+    if (isSelected())
+        g.fillAll (Colours::teal);
+
+    g.setColour (Colours::black);
+    g.setFont (15.0f);
+
+    g.drawText (tree["name"].toString(),
+                4, 0, width - 4, height,
+                Justification::centredLeft, true);
+}
+
+void EventTreeItem::itemOpennessChanged (bool isNowOpen)
+{
+    if (isNowOpen && getNumSubItems() == 0)
+        refreshSubItems();
+    else
+        clearSubItems();
+}
+
+
+void EventTreeItem::treeChildrenChanged (const ValueTree& parentTree)
+{
+    if (parentTree == tree)
+    {
+        refreshSubItems();
+        treeHasChanged();
+        setOpen (true);
+    }
+}
+
+void EventTreeItem::refreshSubItems()
+{
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i) {
+        addSubItem (new EventTreeItem(tree.getChild (i), undoManager));
+    }
+}
+
+void EventTreeItem::valueTreePropertyChanged (ValueTree&, const Identifier&)
+{
+    repaintItem();
+}
+
+void EventTreeItem::getSelectedTreeViewItems (TreeView& treeView, OwnedArray<ValueTree>& items)
+{
+    auto numSelected = treeView.getNumSelectedItems();
+
+    for (int i = 0; i < numSelected; ++i)
+        if (auto* vti = dynamic_cast<EventTreeItem*> (treeView.getSelectedItem (i)))
+            items.add (new ValueTree (vti->tree));
+}
+
+//////////////////////////////////////////////////
 // DirectoryDisplay Component
 //////////////////////////////////////////////////
 
 DirectoryDisplay::DirectoryDisplay()
 {
+    addAndMakeVisible(eventTree);
+    
+    eventTree.setTitle("EventTree");
+    eventTree.setDefaultOpenness (true);
+    eventTree.setMultiSelectEnabled (true);
+    eventItem.reset (new EventTreeItem (createRootValueTree(), undoManager));
+    eventTree.setRootItem(eventItem.get());
     
 }
 
@@ -180,7 +267,51 @@ void DirectoryDisplay::paint(juce::Graphics& g)
 
 void DirectoryDisplay::resized()
 {
+    auto r = getLocalBounds();
+    eventTree.setBounds(r);
+}
 
+ValueTree DirectoryDisplay::createTree (const String& desc)
+{
+    ValueTree t ("Item");
+    t.setProperty ("name", desc, nullptr);
+    return t;
+}
+
+ValueTree DirectoryDisplay::createRootValueTree()
+{
+    auto vt = createTree ("This demo displays a ValueTree as a treeview.");
+    vt.appendChild (createTree ("You can drag around the nodes to rearrange them"),               nullptr);
+    vt.appendChild (createTree ("..and press 'delete' or 'backspace' to delete them"),            nullptr);
+    vt.appendChild (createTree ("Then, you can use the undo/redo buttons to undo these changes"), nullptr);
+
+    int n = 1;
+    vt.appendChild (createRandomTree (n, 0), nullptr);
+
+    return vt;
+}
+
+ValueTree DirectoryDisplay::createRandomTree (int& counter, int depth)
+{
+    auto t = createTree ("Item " + String (counter++));
+
+    if (depth < 3)
+        for (int i = 1 + Random::getSystemRandom().nextInt (7); --i >= 0;)
+            t.appendChild (createRandomTree (counter, depth + 1), nullptr);
+
+    return t;
+}
+
+void DirectoryDisplay::deleteSelectedItems()
+{
+    OwnedArray<ValueTree> selectedItems;
+    EventTreeItem::getSelectedTreeViewItems (eventTree, selectedItems);
+
+    for (auto* v : selectedItems)
+    {
+        if (v->getParent().isValid())
+            v->getParent().removeChild (*v, &undoManager);
+    }
 }
 
 void DirectoryDisplay::loadDirectoryIntoFileTreeComponent(File& directory)
