@@ -3,6 +3,8 @@
 <JUCERPROJECT id="KZP9Nt" name="CrustWobble" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="KaiKUJ" name="CrustWobble">
+    <GROUP id="{A50B9ABF-6310-5F0D-2308-75FC03ADBC5A}" name="Wilber3"/>
+    <GROUP id="{2349453C-CB05-4CD4-9461-FDFF0B6906A1}" name="Events"/>
     <GROUP id="{054B88BD-735B-1DB1-3A67-0D17A2DB541D}" name="Source">
       <GROUP id="{9D55F85B-A7CA-B9C7-81FE-74205D0FB7D0}" name="Yggdrasil">
         <FILE id="BMGzYT" name="Properties.cpp" compile="1" resource="0" file="Source/Properties.cpp"/>
