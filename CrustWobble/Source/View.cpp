@@ -271,35 +271,68 @@ void DirectoryDisplay::resized()
     eventTree.setBounds(r);
 }
 
-ValueTree DirectoryDisplay::createTree (const String& desc)
+ValueTree DirectoryDisplay::createTree (const String& desc, const String& path)
 {
     ValueTree t ("Item");
     t.setProperty ("name", desc, nullptr);
+    t.setProperty ("path", path, nullptr);
+    
     return t;
 }
 
 ValueTree DirectoryDisplay::createRootValueTree()
 {
-    auto vt = createTree ("This demo displays a ValueTree as a treeview.");
-    vt.appendChild (createTree ("You can drag around the nodes to rearrange them"),               nullptr);
-    vt.appendChild (createTree ("..and press 'delete' or 'backspace' to delete them"),            nullptr);
-    vt.appendChild (createTree ("Then, you can use the undo/redo buttons to undo these changes"), nullptr);
+    String path = "/Users/alfie/Desktop/Personal Projects/CrustWobble/QFX0_01/CrustWobble/Events";
+    File eventDirectory = File(path);
 
-    int n = 1;
-    vt.appendChild (createRandomTree (n, 0), nullptr);
+    auto vt = createTree ("Events", path);
+    unique_ptr<ValueTree> currentParent;
+    currentParent.reset(new ValueTree(vt));
 
+    if (eventDirectory.exists())
+    {
+        for (DirectoryEntry entry : RangedDirectoryIterator(File(eventDirectory), true, "*", File::findFilesAndDirectories))
+        {
+            File temp = entry.getFile();
+            if (temp.exists())
+            {
+                String dirString = temp.getFullPathName();
+                String nameString = temp.getFileName();
+                
+                auto parent = temp.getParentDirectory();
+                String parentName = parent.getFileName();
+                String vtParentName = currentParent->getProperty("name").toString();
+                
+                DBG("ParentDIR: " + parentName + "  ParentVT:  " + vtParentName);
+                
+                
+                while (parentName != currentParent->getProperty("name").toString())
+                {
+                    DBG("ParentDIR: " + parentName + "  ParentVT:  " + vtParentName);
+                    auto p = currentParent->getParent();
+                    if(p.isValid())
+                        currentParent.reset(new ValueTree(p));
+                    else
+                        currentParent.reset(new ValueTree(vt));
+                    DBG(p.getProperty("name").toString());
+                }
+                
+                auto newTree = createTree(nameString, dirString);
+                currentParent->appendChild(newTree, nullptr);
+                
+                currentParent.reset(new ValueTree(newTree));
+                
+                DBG(nameString + ":  " + dirString);
+            }
+            else
+                DBG("A FILE IN THE DIRECTORY SUPPLIED WAS NOT REAL SOMEHOW");
+            }
+        }
+        else
+            DBG("The directory selected as event did not exist");
+    
     return vt;
-}
-
-ValueTree DirectoryDisplay::createRandomTree (int& counter, int depth)
-{
-    auto t = createTree ("Item " + String (counter++));
-
-    if (depth < 3)
-        for (int i = 1 + Random::getSystemRandom().nextInt (7); --i >= 0;)
-            t.appendChild (createRandomTree (counter, depth + 1), nullptr);
-
-    return t;
+    
 }
 
 void DirectoryDisplay::deleteSelectedItems()

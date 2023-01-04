@@ -122,9 +122,8 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
 
-    static ValueTree createTree (const String& desc);
+    static ValueTree createTree (const String& desc, const String& path);
     static ValueTree createRootValueTree();
-    static ValueTree createRandomTree (int& counter, int depth);
     
     void deleteSelectedItems();
     void loadDirectoryIntoFileTreeComponent(File& directory);
@@ -134,8 +133,6 @@ private:
     UndoManager undoManager;
     
     unique_ptr<EventTreeItem> eventItem;
-    unique_ptr<FileTreeComponent> fileTree;
-    unique_ptr<DirectoryContentsList> dirContents;
 };
 
 // ----------------------------------------------------------
