@@ -80,6 +80,37 @@ private:
 
 // ----------------------------------------------------------
 
+
+class AudioVisualiser : public Component
+{
+public:
+
+    AudioVisualiser();
+    ~AudioVisualiser();
+                                               
+    void paint(Graphics& g) override;
+
+    void resized() override;
+
+    AudioThumbnail& getThumbnail();
+                                                          
+    void thumbnailChanged();
+
+private:
+
+    void paintIfNoFileLoaded(Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
+
+    void paintIfFileLoaded(Graphics& g, const Rectangle<int>& thumbnailBounds);
+
+    AudioFormatManager thumbnailFormatManager;
+    AudioThumbnailCache thumbnailCache;
+    AudioThumbnail thumbnail;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioVisualiser)
+
+};
+// ----------------------------------------------------------
+
 class EventTreeItem : public TreeViewItem, private ValueTree::Listener
 {
 public:
@@ -125,12 +156,12 @@ public:
     static ValueTree createTree (const String& desc, const String& path);
     static ValueTree createRootValueTree();
     
-    void deleteSelectedItems();
-    void loadDirectoryIntoFileTreeComponent(File& directory);
-
+    void setVisualiser(AudioVisualiser* v);
+    
 private:
     TreeView eventTree;
     UndoManager undoManager;
+    AudioVisualiser* visualiser = nullptr;
     
     unique_ptr<EventTreeItem> eventItem;
 };
@@ -155,37 +186,7 @@ private:
 };
 
 
-// ----------------------------------------------------------
 
-
-class AudioVisualiser : public Component
-{
-public:
-
-    AudioVisualiser();
-    ~AudioVisualiser();
-                                               
-    void paint(Graphics& g) override;
-
-    void resized() override;
-
-    AudioThumbnail& getThumbnail();
-                                                          
-    void thumbnailChanged();
-
-private:
-
-    void paintIfNoFileLoaded(Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
-
-    void paintIfFileLoaded(Graphics& g, const Rectangle<int>& thumbnailBounds);
-
-    AudioFormatManager thumbnailFormatManager;
-    AudioThumbnailCache thumbnailCache;
-    AudioThumbnail thumbnail;
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioVisualiser)
-
-};
 
 // ----------------------------------------------------------
 
@@ -200,6 +201,7 @@ public:
     void resized() override;
     
     void updateVisualiser();
+    AudioVisualiser* getVisualiser();
     
 private:
     AudioVisualiser visualiser;
