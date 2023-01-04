@@ -153,10 +153,11 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
 
-    static ValueTree createTree (const String& desc, const String& path);
+    static ValueTree createTree (const String& desc, const String& content);
     static ValueTree createRootValueTree();
     
     void setVisualiser(AudioVisualiser* v);
+
     
 private:
     TreeView eventTree;

@@ -272,12 +272,11 @@ void DirectoryDisplay::resized()
     eventTree.setBounds(r);
 }
 
-ValueTree DirectoryDisplay::createTree (const String& desc, const String& path)
+ValueTree DirectoryDisplay::createTree (const String& desc, const String& content)
 {
     ValueTree t ("Item");
     t.setProperty ("name", desc, nullptr);
-    t.setProperty ("path", path, nullptr);
-    
+    t.setProperty ("audio", content, nullptr);
     return t;
 }
 
@@ -289,6 +288,7 @@ ValueTree DirectoryDisplay::createRootValueTree()
     auto vt = createTree ("Events", path);
     unique_ptr<ValueTree> currentParent;
     currentParent.reset(new ValueTree(vt));
+    WavAudioFormat wavFormat;
 
     if (eventDirectory.exists())
     {
@@ -299,13 +299,25 @@ ValueTree DirectoryDisplay::createRootValueTree()
             {
                 String dirString = temp.getFullPathName();
                 String nameString = temp.getFileName();
+                String contentString = "DIR";
+                
+                if(wavFormat.canHandleFile(temp)){
+                    FileInputStream inputStream(temp);
+                    if (!inputStream.openedOk())
+                    {
+                        DBG("Something went wrong while opening the file...");;
+                    }
+                    
+                    int fileSize = int(inputStream.getTotalLength());
+                    string fileContents;
+                    fileContents.resize(fileSize);
+                    inputStream.read(&fileContents[0], fileSize);
+                    contentString = fileContents;
+                }
                 
                 auto parent = temp.getParentDirectory();
                 String parentName = parent.getFileName();
                 String vtParentName = currentParent->getProperty("name").toString();
-                
-                DBG("ParentDIR: " + parentName + "  ParentVT:  " + vtParentName);
-                
                 
                 while (parentName != currentParent->getProperty("name").toString())
                 {
@@ -318,12 +330,12 @@ ValueTree DirectoryDisplay::createRootValueTree()
                     DBG(p.getProperty("name").toString());
                 }
                 
-                auto newTree = createTree(nameString, dirString);
+                auto newTree = createTree(nameString, contentString);
                 currentParent->appendChild(newTree, nullptr);
                 
                 currentParent.reset(new ValueTree(newTree));
                 
-                DBG(nameString + ":  " + dirString);
+                DBG(nameString + ":  " + contentString);
             }
             else
                 DBG("A FILE IN THE DIRECTORY SUPPLIED WAS NOT REAL SOMEHOW");
@@ -341,6 +353,8 @@ void DirectoryDisplay::setVisualiser(AudioVisualiser* v)
 {
     visualiser = v;
 }
+
+
 
 
 //////////////////////////////////////////////////
