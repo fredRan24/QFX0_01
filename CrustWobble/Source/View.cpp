@@ -21,6 +21,7 @@ MainView::MainView()
     addAndMakeVisible(fileMenuBar);
     addAndMakeVisible(topWindow);
     addAndMakeVisible(dirDisplay);
+    dirDisplay.setVisualiser(topWindow.getVisualiser());
 }
 
 //destructor
@@ -331,25 +332,14 @@ ValueTree DirectoryDisplay::createRootValueTree()
         else
             DBG("The directory selected as event did not exist");
     
-    return vt;
+    currentParent.reset(currentParent.release());
     
+    return vt;
 }
 
-void DirectoryDisplay::deleteSelectedItems()
+void DirectoryDisplay::setVisualiser(AudioVisualiser* v)
 {
-    OwnedArray<ValueTree> selectedItems;
-    EventTreeItem::getSelectedTreeViewItems (eventTree, selectedItems);
-
-    for (auto* v : selectedItems)
-    {
-        if (v->getParent().isValid())
-            v->getParent().removeChild (*v, &undoManager);
-    }
-}
-
-void DirectoryDisplay::loadDirectoryIntoFileTreeComponent(File& directory)
-{
-
+    visualiser = v;
 }
 
 
@@ -411,6 +401,10 @@ void TopWindowView::resized()
     visualiser.setBounds(segment.reduced(10,10));
 }
 
+AudioVisualiser* TopWindowView::getVisualiser()
+{
+    return &visualiser;
+}
 //////////////////////////////////////////////////
 // AudioVisualiser Component
 //////////////////////////////////////////////////
