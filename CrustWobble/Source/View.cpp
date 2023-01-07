@@ -12,6 +12,7 @@
 #include "View.h"
 using namespace std;
 
+
 //////////////////////////////////////////////////
 //       MainView
 //////////////////////////////////////////////////
@@ -239,6 +240,22 @@ void EventTreeItem::getSelectedTreeViewItems (TreeView& treeView, OwnedArray<Val
             items.add (new ValueTree (vti->tree));
 }
 
+String EventTreeItem::getAudioDataAsString()
+{
+    return tree.getProperty("audio");
+}
+
+
+ValueTree* EventTreeItem::getThisTree()
+{
+    return &tree;
+}
+
+String EventTreeItem::getThisItemsAudio()
+{
+    return tree.getProperty("audio");
+}
+
 //////////////////////////////////////////////////
 // DirectoryDisplay Component
 //////////////////////////////////////////////////
@@ -249,9 +266,10 @@ DirectoryDisplay::DirectoryDisplay()
     
     eventTree.setTitle("EventTree");
     eventTree.setDefaultOpenness (true);
-    eventTree.setMultiSelectEnabled (true);
+    eventTree.setMultiSelectEnabled (false);
     eventItem.reset (new EventTreeItem (createRootValueTree(), undoManager));
     eventTree.setRootItem(eventItem.get());
+    eventTree.addMouseListener(this, true);
     
 }
 
@@ -272,11 +290,11 @@ void DirectoryDisplay::resized()
     eventTree.setBounds(r);
 }
 
-ValueTree DirectoryDisplay::createTree (const String& desc, const String& content)
+ValueTree DirectoryDisplay::createTree (const String& desc, const String& path)
 {
     ValueTree t ("Item");
     t.setProperty ("name", desc, nullptr);
-    t.setProperty ("audio", content, nullptr);
+    t.setProperty ("fullPathname", path, nullptr);
     return t;
 }
 
@@ -285,7 +303,7 @@ ValueTree DirectoryDisplay::createRootValueTree()
     String path = "/Users/alfie/Desktop/Personal Projects/CrustWobble/QFX0_01/CrustWobble/Events";
     File eventDirectory = File(path);
 
-    auto vt = createTree ("Events", path);
+    auto vt = createTree ("Events", "DIR");
     unique_ptr<ValueTree> currentParent;
     currentParent.reset(new ValueTree(vt));
     WavAudioFormat wavFormat;
@@ -300,20 +318,6 @@ ValueTree DirectoryDisplay::createRootValueTree()
                 String dirString = temp.getFullPathName();
                 String nameString = temp.getFileName();
                 String contentString = "DIR";
-                
-                if(wavFormat.canHandleFile(temp)){
-                    FileInputStream inputStream(temp);
-                    if (!inputStream.openedOk())
-                    {
-                        DBG("Something went wrong while opening the file...");;
-                    }
-                    
-                    int fileSize = int(inputStream.getTotalLength());
-                    string fileContents;
-                    fileContents.resize(fileSize);
-                    inputStream.read(&fileContents[0], fileSize);
-                    contentString = fileContents;
-                }
                 
                 auto parent = temp.getParentDirectory();
                 String parentName = parent.getFileName();
@@ -330,12 +334,12 @@ ValueTree DirectoryDisplay::createRootValueTree()
                     DBG(p.getProperty("name").toString());
                 }
                 
-                auto newTree = createTree(nameString, contentString);
+                auto newTree = createTree(nameString, dirString);
                 currentParent->appendChild(newTree, nullptr);
                 
                 currentParent.reset(new ValueTree(newTree));
                 
-                DBG(nameString + ":  " + contentString);
+                DBG(nameString + ":  " + dirString);
             }
             else
                 DBG("A FILE IN THE DIRECTORY SUPPLIED WAS NOT REAL SOMEHOW");
@@ -354,8 +358,60 @@ void DirectoryDisplay::setVisualiser(AudioVisualiser* v)
     visualiser = v;
 }
 
+void DirectoryDisplay::mouseDown (const MouseEvent& event)
+{
+    DBG("MouseDown Triggered...");
+    if(event.mouseWasClicked())
+    {
+        auto numSelected = eventTree.getNumSelectedItems();
+        String num = to_string(numSelected);
+        DBG("Number of selected items: " + num);
 
+        if(numSelected>0)
+        {
+            auto selectedItem = eventTree.getSelectedItem(0);
+            auto selecteditemsName = selectedItem->getUniqueName();
+            DBG("Selected ITem Name: " + selecteditemsName);
+            const var v = selecteditemsName;
+            auto theTree = ValueTree(*(eventItem.get()->getThisTree()));
+            
+            //DBG("The tree: "+ theTree.toXmlString());
+            ValueTree theChild;
+            searchTree(theTree, theChild, v);
+            auto path = theChild.getProperty("fullPathname").toString();
+        
+            DBG("FilePath im about to feed to the visualiser: " + path);
+            
+            if(!path.contains(".wav"))
+                return;
+                
+            if(visualiser != nullptr)
+            {
+                visualiser->loadData(path);
+            }
+        }
+        else
+            DBG("There wasnt anything selected...");
+    }
+    else
+        DBG("mouseWasntClicked...");
+}
 
+void DirectoryDisplay::searchTree(ValueTree tree, ValueTree& resultTree, const var& childName)
+{
+    const Identifier id = "name";
+    for (const auto& child : tree)
+    {
+        auto check = child.getChildWithProperty(id, childName);
+        if(check.isValid())
+        {
+            DBG("Found a valid child for ya!");
+            resultTree = check;
+        }
+        else
+            searchTree(child, resultTree, childName);
+    }
+}
 
 //////////////////////////////////////////////////
 // ControlsView Component
@@ -485,4 +541,14 @@ void AudioVisualiser::paint(Graphics& g)
         paintIfNoFileLoaded(g, r);
     else
         paintIfFileLoaded(g, r);
+}
+
+void AudioVisualiser::loadData(String filePath)
+{
+    File temp = File(filePath);
+    if(temp.existsAsFile())
+    {
+        thumbnail.setSource(new FileInputSource(temp));
+    }
+    repaint();
 }

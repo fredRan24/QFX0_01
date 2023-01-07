@@ -12,7 +12,6 @@
 
 using namespace std;
 using namespace juce;
-
 // ----------------------------------------------------------
 
 class ConvertNewEventView : public Component
@@ -95,6 +94,7 @@ public:
     AudioThumbnail& getThumbnail();
                                                           
     void thumbnailChanged();
+    void loadData(String filePath);
 
 private:
 
@@ -121,8 +121,12 @@ public:
     void paintItem (Graphics& g, int width, int height) override;
     bool mightContainSubItems() override;
     String getUniqueName() const override;
+    String getAudioDataAsString();
     
     static void getSelectedTreeViewItems (TreeView& treeView, OwnedArray<ValueTree>& items);
+    
+    ValueTree* getThisTree();
+    String getThisItemsAudio();
     
 private:
     
@@ -153,16 +157,21 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
 
-    static ValueTree createTree (const String& desc, const String& content);
+    static ValueTree createTree (const String& desc, const String& path);
     static ValueTree createRootValueTree();
     
     void setVisualiser(AudioVisualiser* v);
-
+    
+    void mouseDown (const MouseEvent& event) override;
+    
+    void searchTree(ValueTree tree, ValueTree& resultTree, const var& childName);
+    
     
 private:
     TreeView eventTree;
     UndoManager undoManager;
     AudioVisualiser* visualiser = nullptr;
+    String tempPath = "";
     
     unique_ptr<EventTreeItem> eventItem;
 };
