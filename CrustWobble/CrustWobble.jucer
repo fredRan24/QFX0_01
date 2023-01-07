@@ -7,6 +7,9 @@
     <GROUP id="{2349453C-CB05-4CD4-9461-FDFF0B6906A1}" name="Events"/>
     <GROUP id="{054B88BD-735B-1DB1-3A67-0D17A2DB541D}" name="Source">
       <GROUP id="{9D55F85B-A7CA-B9C7-81FE-74205D0FB7D0}" name="Yggdrasil">
+        <FILE id="JCDIXj" name="EventTreeItem.cpp" compile="1" resource="0"
+              file="Source/EventTreeItem.cpp"/>
+        <FILE id="zDFxZr" name="EventTreeItem.h" compile="0" resource="0" file="Source/EventTreeItem.h"/>
         <FILE id="BMGzYT" name="Properties.cpp" compile="1" resource="0" file="Source/Properties.cpp"/>
         <FILE id="kt8m0x" name="Properties.h" compile="0" resource="0" file="Source/Properties.h"/>
         <FILE id="hHx2wZ" name="Yggdrasil.cpp" compile="1" resource="0" file="Source/Yggdrasil.cpp"/>
@@ -25,8 +28,17 @@
         <FILE id="zbRePo" name="Audio.h" compile="0" resource="0" file="Source/Audio.h"/>
       </GROUP>
       <GROUP id="{9EC54394-5762-4B72-6C50-C50F1E6ED26D}" name="UI">
+        <FILE id="r1V3WD" name="Controls.cpp" compile="1" resource="0" file="Source/Controls.cpp"/>
+        <FILE id="mizZwb" name="Controls.h" compile="0" resource="0" file="Source/Controls.h"/>
+        <FILE id="piO7CI" name="EventListView.cpp" compile="1" resource="0"
+              file="Source/EventListView.cpp"/>
+        <FILE id="uuGAeB" name="EventListView.h" compile="0" resource="0" file="Source/EventListView.h"/>
+        <FILE id="rqnEEN" name="FileBar.cpp" compile="1" resource="0" file="Source/FileBar.cpp"/>
+        <FILE id="zmqQLT" name="FileBar.h" compile="0" resource="0" file="Source/FileBar.h"/>
         <FILE id="lRgZMd" name="View.cpp" compile="1" resource="0" file="Source/View.cpp"/>
         <FILE id="ystcAr" name="View.h" compile="0" resource="0" file="Source/View.h"/>
+        <FILE id="Ut2RoZ" name="Visualiser.cpp" compile="1" resource="0" file="Source/Visualiser.cpp"/>
+        <FILE id="T2WNRQ" name="Visualiser.h" compile="0" resource="0" file="Source/Visualiser.h"/>
       </GROUP>
       <FILE id="c6HTP9" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="YfgKLn" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
