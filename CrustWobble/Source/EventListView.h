@@ -21,25 +21,27 @@ public:
     DirectoryDisplay();
     ~DirectoryDisplay();
 
+    //Component overrides
     void paint(juce::Graphics& g) override;
     void resized() override;
 
+    //My Public Methods
     static ValueTree createTree (const String& desc, const String& path);
     static ValueTree createRootValueTree();
-    
     void setVisualiser(AudioVisualiser* v);
-    
+    void searchTree(ValueTree tree, ValueTree& resultTree, const var& childName);
+
+    //Mouse Callbacks
     void mouseDown (const MouseEvent& event) override;
     
-    void searchTree(ValueTree tree, ValueTree& resultTree, const var& childName);
-    
-    
 private:
+    //Private Member Variables
     TreeView eventTree;
     UndoManager undoManager;
-    AudioVisualiser* visualiser = nullptr;
     String tempPath = "";
     
+    //Private Pointers
+    AudioVisualiser* visualiser = nullptr;
     unique_ptr<EventTreeItem> eventItem;
 };
 
