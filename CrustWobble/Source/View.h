@@ -8,81 +8,39 @@
   ==============================================================================
 */
 #pragma once
+#include "Visualiser.h"
+#include "Controls.h"
+#include "FileBar.h"
+#include "EventListView.h"
 #include <JuceHeader.h>
 
 using namespace std;
 using namespace juce;
 
-class FileMenuBar : public Component, 
-                    public MenuBarModel
+
+// ----------------------------------------------------------
+
+
+class TopWindowView : public Component
 {
 public:
-    FileMenuBar();
-    ~FileMenuBar();
-
-    //Overrides
+    TopWindowView();
+    ~TopWindowView();
+    
     void paint(juce::Graphics& g) override;
     void resized() override;
-    StringArray getMenuBarNames() override;
-    PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
-    void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
-
-
-    //Enums
-    enum  Menus
-    {
-        FileMenu = 0,
-
-        NumMenus
-    };
-
-    /** The items within the File Menu
-
-        @see Menus
-                                                                                        */
-    enum  FileMenuItems
-    {
-        AudioPrefs = 1,
-
-        NumFileItems
-    };
-
+    
+    void updateVisualiser();
+    AudioVisualiser* getVisualiser();
+    
 private:
-    MenuBarComponent menuBar;
+    AudioVisualiser visualiser;
+    ControlsView controls;
 };
 
-class DirectoryDisplay : public Component
-{
-public:
-    DirectoryDisplay();
-    ~DirectoryDisplay();
 
-    void paint(juce::Graphics& g) override;
-    void resized() override;
+// ----------------------------------------------------------
 
-    void loadDirectoryIntoFileTreeComponent(File& directory);
-
-private:
-    unique_ptr<FileTreeComponent> fileTree;
-    unique_ptr<DirectoryContentsList> dirContents;
-};
-
-class ControlsView : public Component
-{
-public:
-    ControlsView();
-    ~ControlsView();
-
-    void paint(juce::Graphics& g) override;
-    void resized() override;
-
-private:
-
-    //playwinowdtoggle
-    //downloadwindowtoggle
-    //convertwindowtoggle
-
-};
 
 class MainView : public Component
 {
@@ -93,17 +51,15 @@ public:
     //Overrides
     void paint(juce::Graphics& g) override;
     void resized() override;
-
-    FilenameComponent* getDirChooser();
-    TextButton* getConvertButton();
     
 private:
+    
     FileMenuBar fileMenuBar;
-    
-    FilenameComponent dirChooser;
-    FilenameComponent* dirChooserPtr = &dirChooser;
-    
-    TextButton convertButton;
-    TextButton* convertButtonPtr = &convertButton;
-    
+    TopWindowView topWindow;
+    DirectoryDisplay dirDisplay;
 };
+
+
+// ----------------------------------------------------------
+
+
