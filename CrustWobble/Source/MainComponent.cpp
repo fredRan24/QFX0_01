@@ -4,8 +4,9 @@
 MainComponent::MainComponent() : controllerObject(mainView, dirConvertorObject)
 {
     addAndMakeVisible(mainView);
-
-    setSize (600, 400);
+    
+    setSize(1200, 720);
+    
 }
 
 MainComponent::~MainComponent()
