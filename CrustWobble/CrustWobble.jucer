@@ -30,6 +30,10 @@
       <GROUP id="{9EC54394-5762-4B72-6C50-C50F1E6ED26D}" name="UI">
         <FILE id="r1V3WD" name="Controls.cpp" compile="1" resource="0" file="Source/Controls.cpp"/>
         <FILE id="mizZwb" name="Controls.h" compile="0" resource="0" file="Source/Controls.h"/>
+        <FILE id="ri4cjV" name="EventCreatorView.cpp" compile="1" resource="0"
+              file="Source/EventCreatorView.cpp"/>
+        <FILE id="rgVr8M" name="EventCreatorView.h" compile="0" resource="0"
+              file="Source/EventCreatorView.h"/>
         <FILE id="piO7CI" name="EventListView.cpp" compile="1" resource="0"
               file="Source/EventListView.cpp"/>
         <FILE id="uuGAeB" name="EventListView.h" compile="0" resource="0" file="Source/EventListView.h"/>
