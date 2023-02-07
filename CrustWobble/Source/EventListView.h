@@ -12,13 +12,14 @@
 using namespace std;
 #include <JuceHeader.h>
 #include "Visualiser.h"
+#include "Yggdrasil.h"
 #include "EventTreeItem.h"
 
 
 class DirectoryDisplay : public Component
 {
 public:
-    DirectoryDisplay();
+    DirectoryDisplay(Yggdrasil& yggdrasil);
     ~DirectoryDisplay();
 
     //Component overrides
@@ -26,10 +27,8 @@ public:
     void resized() override;
 
     //My Public Methods
-    static ValueTree createTree (const String& desc, const String& path);
-    static ValueTree createRootValueTree();
     void setVisualiser(AudioVisualiser* v);
-    void searchTree(ValueTree tree, ValueTree& resultTree, const var& childName);
+    void setYggdrasil(Yggdrasil& tree);
 
     //Mouse Callbacks
     void mouseDown (const MouseEvent& event) override;
@@ -38,10 +37,10 @@ private:
     //Private Member Variables
     TreeView eventTree;
     UndoManager undoManager;
-    String tempPath = "";
+    
     
     //Private Pointers
     AudioVisualiser* visualiser = nullptr;
-    unique_ptr<EventTreeItem> eventItem;
+    unique_ptr<Yggdrasil> yggdrasil;
 };
 
