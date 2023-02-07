@@ -4,8 +4,7 @@
 MainComponent::MainComponent() : controllerObject(mainView, dirConvertorObject), mainView(yggdrasil)
 {
     addAndMakeVisible(mainView);
-
-    setSize (1024, 720);
+    setSize(1200, 720);
 }
 
 MainComponent::~MainComponent()
