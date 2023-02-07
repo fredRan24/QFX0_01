@@ -12,6 +12,7 @@
 #include "Controls.h"
 #include "FileBar.h"
 #include "EventListView.h"
+#include "EventCreatorView.h"
 #include <JuceHeader.h>
 
 using namespace std;
@@ -45,7 +46,7 @@ private:
 class MainView : public Component
 {
 public:
-    MainView();
+    MainView(Yggdrasil& yggdrasil);
     ~MainView();
 
     //Overrides
@@ -57,6 +58,7 @@ private:
     FileMenuBar fileMenuBar;
     TopWindowView topWindow;
     DirectoryDisplay dirDisplay;
+    EventCreator eventCreator;
 };
 
 

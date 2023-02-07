@@ -16,12 +16,13 @@ using namespace std;
 //       MainView
 //////////////////////////////////////////////////
 
-MainView::MainView()
+MainView::MainView(Yggdrasil& yggdrasil) : dirDisplay(yggdrasil)
 {
     addAndMakeVisible(fileMenuBar);
     addAndMakeVisible(topWindow);
     addAndMakeVisible(dirDisplay);
     dirDisplay.setVisualiser(topWindow.getVisualiser());
+    eventCreator.setSavePath(yggdrasil.getRootDIR());
 }
 
 //destructor
