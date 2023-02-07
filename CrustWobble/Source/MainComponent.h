@@ -4,6 +4,7 @@
 #include "View.h"
 #include "Controller.h"
 #include "Quake.h"
+#include "Yggdrasil.h"
 
 //==============================================================================
 /*
@@ -24,6 +25,7 @@ public:
 private:
     //==============================================================================
     // Your private member variables go here...
+    Yggdrasil yggdrasil;
     MainView mainView;
     QuakeProcessor dirConvertorObject;
     Controller controllerObject;

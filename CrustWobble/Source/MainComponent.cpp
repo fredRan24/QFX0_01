@@ -1,7 +1,7 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent() : controllerObject(mainView, dirConvertorObject)
+MainComponent::MainComponent() : controllerObject(mainView, dirConvertorObject), mainView(yggdrasil)
 {
     addAndMakeVisible(mainView);
 
