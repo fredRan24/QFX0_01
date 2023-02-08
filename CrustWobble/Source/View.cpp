@@ -21,6 +21,8 @@ MainView::MainView(Yggdrasil& yggdrasil) : dirDisplay(yggdrasil)
     addAndMakeVisible(fileMenuBar);
     addAndMakeVisible(topWindow);
     addAndMakeVisible(dirDisplay);
+    addAndMakeVisible(eventCreator);
+    
     dirDisplay.setVisualiser(topWindow.getVisualiser());
     eventCreator.setSavePath(yggdrasil.getRootDIR());
 }
@@ -44,8 +46,12 @@ void MainView::resized()
     auto topSectionBounds = window.removeFromTop(window.getHeight()/5);
     topWindow.setBounds(topSectionBounds);
     
+    auto bottomWindowBounds = window.reduced(10,10);
+    auto eventCreatorBounds = bottomWindowBounds.removeFromRight(window.getWidth()/4);
+    eventCreator.setBounds(eventCreatorBounds);
     
-    dirDisplay.setBounds(window.reduced(10,10));
+    bottomWindowBounds.removeFromRight(10);
+    dirDisplay.setBounds(bottomWindowBounds);
 }
 
 //////////////////////////////////////////////////
