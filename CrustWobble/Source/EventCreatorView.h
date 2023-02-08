@@ -19,6 +19,9 @@ public:
     EventCreator();
     ~EventCreator();
     
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+    
     void setSavePath(String path);
     void createNewEvent(String directoryPath);
     

@@ -19,6 +19,16 @@ EventCreator::~EventCreator()
     
 }
 
+void EventCreator::paint(juce::Graphics& g)
+{
+    g.fillAll(Colours::darkslateblue);
+}
+
+void EventCreator::resized()
+{
+    
+}
+
 void EventCreator::setSavePath(String path)
 {
     savePath = path;
@@ -36,7 +46,4 @@ void EventCreator::createNewEvent(String directoryPath)
     }
     else
         DBG("ERROR: failed to load the supplied directory into the processor unit...");
-    
-    
-    
 }
