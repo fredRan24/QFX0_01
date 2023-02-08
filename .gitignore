@@ -34,3 +34,6 @@
 CrustWobble/Builds/
 CrustWobble/JuceLibraryCode/
 *.wav
+CrustWobble/CrustWobble.jucer
+*.jucer
+*.txt
